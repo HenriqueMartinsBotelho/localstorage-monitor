@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LocalStorage Monitor</title>
+    <style>
+      body {
+        width: 300px;
+        padding: 10px;
+        font-family: Arial, sans-serif;
+      }
+      h1 {
+        font-size: 18px;
+        color: #333;
+      }
+      p {
+        font-size: 14px;
+        color: #666;
+      }
+      #changesList {
+        max-height: 200px;
+        overflow-y: auto;
+        margin-bottom: 10px;
+      }
+      .change-item {
+        background: #f9f9f9;
+        padding: 5px;
+        margin-bottom: 5px;
+        border-radius: 3px;
+      }
+      button {
+        padding: 5px 10px;
+        font-size: 14px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>LocalStorage Monitor</h1>
+    <div id="changesList">
+      <p id="noChanges">Nenhuma atualização encontrada.</p>
+    </div>
+    <button id="clearButton">Limpar Alterações</button>
+
+    <script src="popup.js"></script>
+  </body>
+</html>
