@@ -1,8 +1,5 @@
-// content.js
 (function () {
   console.log("Content script loaded");
-
-  // Request background script to inject 'injected.js'
   chrome.runtime.sendMessage({ action: 'injectScript' });
 
   window.addEventListener('message', function (event) {

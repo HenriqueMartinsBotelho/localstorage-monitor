@@ -9,9 +9,9 @@ chrome.storage.local.get("changes", (result) => {
       let div = document.createElement("div");
       div.className = "change-item";
       div.innerHTML = `
-        <strong>Key:</strong> <span class="key">${change.key}</span><br>
-        <strong>New Value:</strong> <span class="value">${change.newValue}</span><br>
         <strong>Time:</strong> <span class="time">${new Date(change.timestamp).toLocaleString()}</span>
+        <strong>Key:</strong> <span class="key">${change.key}</span><br>
+        <strong>Value:</strong> <span class="value">${change.newValue}</span><br>
       `;
       changesList.appendChild(div);
     });
@@ -24,7 +24,7 @@ document.getElementById("clearButton").addEventListener("click", () => {
   chrome.storage.local.set({ changes: [] }, function () {
     console.log("Changes cleared from storage.");
     document.getElementById("changesList").innerHTML =
-      '<p id="noChanges">Nenhuma atualização encontrada.</p>';
+      '<p id="noChanges">No changes found!</p>';
     chrome.action.setBadgeText({ text: "" });
   });
 });

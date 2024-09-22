@@ -2,7 +2,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   console.log("Message received in background:", message);
 
   if (message.action === "injectScript") {
-    // Existing injectScript logic
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       if (tabs.length > 0) {
         const activeTab = tabs[0];
@@ -35,28 +34,22 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       }
     });
   } else if (message.type === "LOCALSTORAGE_UPDATED") {
-    // Handle LOCALSTORAGE_UPDATED type
     console.log(
       `LocalStorage updated: key=${message.key}, newValue=${message.newValue}`
     );
 
-    // Retrieve existing changes from chrome.storage.local
     chrome.storage.local.get("changes", (result) => {
       let changes = result.changes || [];
 
-      // Add the new change
       changes.push({
         key: message.key,
         newValue: message.newValue,
         timestamp: Date.now(),
       });
 
-      // Save updated changes back to storage
       chrome.storage.local.set({ changes: changes }, () => {
         console.log("Change saved to storage:", changes);
-
-        // Update badge text with number of changes
-        chrome.action.setBadgeText({ text: changes.length.toString() });
+       chrome.action.setBadgeText({ text: changes.length.toString() });
       });
     });
   } else {
