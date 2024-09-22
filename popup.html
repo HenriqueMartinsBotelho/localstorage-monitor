@@ -52,19 +52,25 @@
         box-shadow: 0 4px 15px rgba(76, 201, 240, 0.2);
       }
 
+      .change-item .line {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 8px;
+      }
+
       .change-item strong {
         color: #f72585;
-        display: inline-block;
-        width: 80px;
-        margin-right: 10px;
         font-weight: 600;
+        flex-basis: 100px;
       }
 
       .change-item .key,
       .change-item .value,
       .change-item .time {
-        display: inline-block;
-        word-break: break-all;
+        flex-grow: 1;
+        word-break: break-word;
+        padding-left: 10px;
       }
 
       button {

@@ -9,9 +9,15 @@ chrome.storage.local.get("changes", (result) => {
       let div = document.createElement("div");
       div.className = "change-item";
       div.innerHTML = `
-        <strong>Time:</strong> <span class="time">${new Date(change.timestamp).toLocaleString()}</span>
-        <strong>Key:</strong> <span class="key">${change.key}</span><br>
-        <strong>Value:</strong> <span class="value">${change.newValue}</span><br>
+        <div class="line"><strong>Key:</strong> <span class="key">${
+          change.key
+        }</span></div>
+        <div class="line"><strong>Value:</strong> <span class="value">${
+          change.newValue
+        }</span></div>
+        <div class="line"><strong>Time:</strong> <span class="time">${new Date(
+          change.timestamp
+        ).toLocaleString()}</span></div>
       `;
       changesList.appendChild(div);
     });
