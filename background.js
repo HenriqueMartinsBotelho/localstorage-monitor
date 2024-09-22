@@ -1,42 +1,68 @@
-console.log("Background script loaded");
-
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   console.log("Message received in background:", message);
+
   if (message.action === "injectScript") {
-    // Inject the script into the page
-    chrome.scripting.executeScript(
-      {
-        target: { tabId: sender.tab.id },
-        files: ["injected.js"],
-        world: "MAIN",
-      },
-      () => {
-        if (chrome.runtime.lastError) {
-          console.error("Script injection failed:", chrome.runtime.lastError);
+    // Existing injectScript logic
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      if (tabs.length > 0) {
+        const activeTab = tabs[0];
+
+        if (activeTab.id && activeTab.url.startsWith("http")) {
+          chrome.scripting.executeScript(
+            {
+              target: { tabId: activeTab.id },
+              files: ["injected.js"],
+              world: "MAIN",
+            },
+            () => {
+              if (chrome.runtime.lastError) {
+                console.error(
+                  "Script injection failed:",
+                  chrome.runtime.lastError.message
+                );
+              } else {
+                console.log(
+                  "Injected script successfully into the current tab"
+                );
+              }
+            }
+          );
         } else {
-          console.log("Injected script successfully");
+          console.error("Invalid active tab or unsupported URL");
         }
+      } else {
+        console.error("No active tab found");
       }
+    });
+  } else if (message.type === "LOCALSTORAGE_UPDATED") {
+    // Handle LOCALSTORAGE_UPDATED type
+    console.log(
+      `LocalStorage updated: key=${message.key}, newValue=${message.newValue}`
     );
-  } else if (message.action === "injectScript") {
-    // Inject the script into the page
-    chrome.scripting.executeScript(
-      {
-        target: { tabId: sender.tab.id },
-        files: ["injected.js"],
-        world: "MAIN",
-      },
-      () => {
-        if (chrome.runtime.lastError) {
-          console.error("Script injection failed:", chrome.runtime.lastError);
-        } else {
-          console.log("Injected script successfully");
-        }
-      }
-    );
+
+    // Retrieve existing changes from chrome.storage.local
+    chrome.storage.local.get("changes", (result) => {
+      let changes = result.changes || [];
+
+      // Add the new change
+      changes.push({
+        key: message.key,
+        newValue: message.newValue,
+        timestamp: Date.now(),
+      });
+
+      // Save updated changes back to storage
+      chrome.storage.local.set({ changes: changes }, () => {
+        console.log("Change saved to storage:", changes);
+
+        // Update badge text with number of changes
+        chrome.action.setBadgeText({ text: changes.length.toString() });
+      });
+    });
   } else {
     console.log("Unrecognized message type:", message.type);
   }
+
   sendResponse({ received: true });
 });
 

@@ -3,44 +3,93 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>LocalStorage Monitor</title>
+    <title>Local Storage Monitor</title>
     <style>
       body {
-        width: 300px;
-        padding: 10px;
-        font-family: Arial, sans-serif;
+        width: 400px;
+        height: 600px;
+        padding: 20px;
+        font-family: "Orbitron", sans-serif;
+        background: rgba(0, 0, 0);
+
+        color: #00ffcc;
       }
+
       h1 {
-        font-size: 18px;
-        color: #333;
+        font-size: 22px;
+        color: #ff00ff;
+        text-align: center;
+        margin-bottom: 20px;
+        text-transform: uppercase;
       }
+
+    
       p {
         font-size: 14px;
-        color: #666;
+        color: #cccccc;
       }
+
+    
       #changesList {
-        max-height: 200px;
         overflow-y: auto;
-        margin-bottom: 10px;
+        margin-bottom: 20px;
+        padding: 10px;
+        background: rgba(0, 0, 0);
       }
+
       .change-item {
-        background: #f9f9f9;
-        padding: 5px;
-        margin-bottom: 5px;
-        border-radius: 3px;
+        background: rgba(0, 0, 0, 0.7);
+        color: #00ffcc;
+        padding: 15px;
+        margin-bottom: 15px;
+        border-radius: 5px;
+        border: 1px solid #ff00ff;
+        box-shadow: 0 0 10px #ff00ff, 0 0 5px #00ffcc;
+        transition: transform 0.3s ease-in-out;
       }
+      .change-item:hover {
+        transform: scale(1.05);
+      }
+      .change-item strong {
+        color: #ff00ff;
+        display: inline-block;
+        width: 80px;
+        margin-right: 10px;
+      }
+      .change-item .key,
+      .change-item .value,
+      .change-item .time {
+        display: inline-block;
+        word-break: break-all;
+      }
+
       button {
-        padding: 5px 10px;
+        padding: 10px 20px;
         font-size: 14px;
+        color: #ffffff;
+        background: linear-gradient(135deg, #ff00ff, #00ffcc);
+        border: 1px solid #00ffcc;
+        border-radius: 5px;
+        box-shadow: 0 0 10px #ff00ff, 0 0 10px #00ffcc;
+        cursor: pointer;
+        transition: background 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        display: block;
+        margin: 0 auto;
+        text-transform: uppercase;
+      }
+
+      button:hover {
+        background: linear-gradient(135deg, #00ffcc, #ff00ff);
+        box-shadow: 0 0 20px #ff00ff, 0 0 20px #00ffcc;
       }
     </style>
   </head>
   <body>
-    <h1>LocalStorage Monitor</h1>
+    <h1>Local Storage Monitor</h1>
     <div id="changesList">
-      <p id="noChanges">Nenhuma atualização encontrada.</p>
+      <p id="noChanges">Nothing to show.</p>
     </div>
-    <button id="clearButton">Limpar Alterações</button>
+    <button id="clearButton">Clear</button>
 
     <script src="popup.js"></script>
   </body>

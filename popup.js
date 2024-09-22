@@ -1,6 +1,3 @@
-console.log("Popup script loaded");
-
-// Recuperar e exibir as alterações armazenadas
 chrome.storage.local.get("changes", (result) => {
   let changes = result.changes || [];
   let changesList = document.getElementById("changesList");
@@ -11,9 +8,11 @@ chrome.storage.local.get("changes", (result) => {
     changes.forEach((change) => {
       let div = document.createElement("div");
       div.className = "change-item";
-      div.textContent = `Key: ${change.key}, New Value: ${change.newValue}, Time: ${new Date(
-        change.timestamp
-      ).toLocaleString()}`;
+      div.innerHTML = `
+        <strong>Key:</strong> <span class="key">${change.key}</span><br>
+        <strong>New Value:</strong> <span class="value">${change.newValue}</span><br>
+        <strong>Time:</strong> <span class="time">${new Date(change.timestamp).toLocaleString()}</span>
+      `;
       changesList.appendChild(div);
     });
   } else {
@@ -21,12 +20,11 @@ chrome.storage.local.get("changes", (result) => {
   }
 });
 
-// Limpar as alterações e o badge ao clicar no botão
 document.getElementById("clearButton").addEventListener("click", () => {
   chrome.storage.local.set({ changes: [] }, function () {
     console.log("Changes cleared from storage.");
-    document.getElementById("changesList").innerHTML = '<p id="noChanges">Nenhuma atualização encontrada.</p>';
-    // Limpar o badge
+    document.getElementById("changesList").innerHTML =
+      '<p id="noChanges">Nenhuma atualização encontrada.</p>';
     chrome.action.setBadgeText({ text: "" });
   });
 });
